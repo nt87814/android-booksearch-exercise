@@ -1,15 +1,24 @@
 package com.codepath.android.booksearch.activities;
 
+import android.graphics.Movie;
 import android.os.Bundle;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.android.booksearch.R;
+import com.codepath.android.booksearch.models.Book;
+import androidx.appcompat.widget.Toolbar;
+
+import org.parceler.Parcels;
 
 public class BookDetailActivity extends AppCompatActivity {
+    Book book;
     private ImageView ivBookCover;
     private TextView tvTitle;
     private TextView tvAuthor;
@@ -24,8 +33,17 @@ public class BookDetailActivity extends AppCompatActivity {
         tvAuthor = (TextView) findViewById(R.id.tvAuthor);
 
         // Extract book object from intent extras
+        book = Parcels.unwrap(getIntent().getParcelableExtra(Book.class.getSimpleName()));
 
         // Use book object to populate data into views
+        Glide.with(this).load(book.getCoverUrl()).into(ivBookCover);
+        tvTitle.setText(book.getTitle());
+        tvAuthor.setText(book.getAuthor());
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setTitle(book.getTitle()); // set the top title
     }
 
 
